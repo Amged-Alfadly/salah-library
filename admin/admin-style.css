@@ -1,0 +1,558 @@
+/* =========================================
+   لوحة تحكم المنصة الاحترافية - CSS المتكامل
+   ========================================= */
+
+/* استيراد الخطوط */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+
+:root {
+    /* لوحة الألوان المحدثة */
+    --admin-sidebar: #0f172a;
+    /* كحلي عميق */
+    --admin-accent: #3b82f6;
+    /* أزرق حيوي */
+    --admin-bg: #f1f5f9;
+    /* رمادي فاتح للخلفية */
+    --white: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --soft-blue: #e0f2fe;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. التأسيس العام */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Tajawal', sans-serif;
+}
+
+body {
+    background-color: var(--admin-bg);
+    color: var(--text-main);
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+/* حل مشكلة الأسهم في حقول الأرقام (السعر والكمية) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    --moz-appearance: textfield;
+}
+
+/* 2. حاوي النظام (Container) */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 3. القائمة الجانبية (Sidebar) */
+.sidebar {
+    width: 260px;
+    background: var(--admin-sidebar);
+    color: white;
+    /* استخدم fixed على سطح المكتب لضمان ثبات الشريط الجانبي */
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sidebar .logo {
+    padding: 30px 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar nav {
+    flex: 1;
+    padding: 20px 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+}
+
+.sidebar li:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar li.active {
+    background: var(--admin-accent);
+    color: white;
+}
+
+.sidebar li i {
+    font-size: 1.2rem;
+    width: 25px;
+}
+
+/* 4. المحتوى الرئيسي (Main Content) */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    /* تلافي تغطية المحتوى بالشريط الجانبي الثابت */
+    margin-left: 260px;
+}
+
+.admin-header {
+    background: var(--white);
+    padding: 20px 30px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+/* 5. التبويبات (Tabs Logic) */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 6. كروت الإحصائيات (Stats) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.card h3 {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--admin-accent);
+}
+
+/* 7. النماذج (Forms) */
+.form-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.grid-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    outline: none;
+    background: #f8fafc;
+    transition: 0.3s;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--admin-accent);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.btn-save {
+    background: var(--admin-accent);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* 8. الجداول (Tables) */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th {
+    background: #f8fafc;
+    padding: 15px;
+    text-align: right;
+    color: var(--text-muted);
+}
+
+.admin-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 9. صفحة تسجيل الدخول (Login) */
+.login-body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.brand-logo {
+    width: 70px;
+    height: 70px;
+    background: var(--admin-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0 auto 20px;
+}
+
+/* 10. التجاوب مع الجوال */
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .grid-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .main-content {
+        padding: 20px;
+        margin-left: 0; /* إلغاء المسافة على الشاشات الصغيرة */
+    }
+}
+
+/* تحسين وصول العناصر عند التفاعل بواسطة لوحة المفاتيح */
+.btn-save:focus,
+.action-btn:focus,
+.close-modal:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 3px solid rgba(59,130,246,0.18);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   إضافات نظام "البناء الشامل" (الفريم والوسائط)
+   ========================================= */
+
+/* 11. تنسيق النافذة المنبثقة (Modal Overlay) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    /* خلفية كحلية شفافة */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    /* تأثير ضبابي خلف الفريم */
+    display: none;
+    /* مخفي افتراضياً */
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.admin-form-modal {
+    background: var(--white);
+    width: 100%;
+    max-width: 800px;
+    /* عرض أكبر ليتسع للبيانات والوسائط */
+    max-height: 90vh;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    /* للسماح بالتمرير داخل الفورم */
+    position: relative;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 12. تنظيم محتوى الفورم الشامل */
+.modal-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+
+.modal-header h3 {
+    color: var(--admin-sidebar);
+    font-size: 1.3rem;
+}
+
+.close-modal {
+    background: #f1f5f9;
+    border: none;
+    font-size: 1.5rem;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: 0.3s;
+}
+
+.close-modal:hover {
+    background: var(--danger);
+    color: white;
+}
+
+.form-content {
+    padding: 30px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.form-section:last-child {
+    border: none;
+}
+
+.form-section h4 {
+    margin-bottom: 20px;
+    color: var(--admin-accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+/* Utility helpers used in admin templates */
+.col-span-full { grid-column: 1 / -1; }
+.max-w-500 { max-width: 500px; }
+.flex-gap-wrap { display:flex; gap:12px; flex-wrap:wrap; }
+.muted-text { color: #666; }
+.table-clean { width:100%; border-collapse: collapse; }
+.table-clean thead tr { background:#f4f4f4; text-align:right; }
+.table-clean th, .table-clean td { padding:12px; border-bottom:1px solid #eee; }
+.badge { background:#eee; padding:3px 8px; border-radius:4px; }
+.modal-overlay-inline { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; }
+.admin-form-modal-inline { background:#fff; padding:20px; border-radius:8px; width:90%; max-width:600px; max-height:90vh; overflow-y:auto; position:relative; }
+.img-thumb { width:120px; height:90px; object-fit:cover; border-radius:8px; display:block; margin-bottom:6px; }
+.radio-label { margin-right:6px; }
+.centered-empty { text-align:center; padding:20px; }
+
+/* 13. تنسيق أزرار التحكم في الجدول */
+.action-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-left: 5px;
+}
+
+.edit-btn {
+    background: var(--soft-blue);
+    color: var(--admin-accent);
+}
+
+.delete-btn {
+    background: #fee2e2;
+    color: var(--danger);
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(0.9);
+}
+
+/* 14. تنسيق الوسائط المتعددة (الصور والفيديو) */
+.media-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.media-badge i {
+    font-size: 0.9rem;
+}
+
+/* 15. تذييل الفورم (التحكم) */
+.form-actions {
+    padding: 20px 30px;
+    background: #f8fafc;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.cancel-btn {
+    background: #e2e8f0;
+    color: var(--text-main);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* إزالة التسطير الافتراضي للروابط داخل لوحة التحكم وتحسين ظهور أزرار الروابط */
+.sidebar a,
+.main-content a,
+.form-card a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* دعم استخدام الروابط كأزرار */
+.form-card a.btn-save,
+.btn-save[href] {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+/* ألوان مساعدة لأزرار الروابط */
+.btn-info { background: #17a2b8; }
+.btn-purple { background: #6f42c1; }
+.btn-warning { background: #ffc107; color: #000; }
+.btn-dark { background: #343a40; }
+
+/* تنسيق النجوم للتقييم */
+.rating { display: inline-flex; gap:4px; align-items: center; }
+.rating .star { color: #ffd166; font-size: 1.1rem; }
+.rating .muted { color: var(--text-muted); font-size: 0.95rem; margin-left:6px; }

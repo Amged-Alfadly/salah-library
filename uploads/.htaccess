@@ -1,0 +1,24 @@
+# منع عرض محتويات المجلد
+Options -Indexes
+
+# منع تنفيذ أي سكربتات خادعة (Apache 2.4+)
+<FilesMatch "\.(php|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Require all denied
+</FilesMatch>
+
+# السماح بتحميل وعرض أنواع الصور فقط
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    Require all granted
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# إذا كان الخادم قديمًا (دعم توابع قديمة)، استخدم قواعد بديلة
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.(php|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+        Order Allow,Deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
